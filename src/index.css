@@ -1,0 +1,271 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smart Kas Ibu Design System
+   Warm, calming pastels for Indonesian housewives
+   All colors in HSL format
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    /* Core brand colors - warm pastels */
+    --background: 30 50% 98%;
+    --foreground: 25 30% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 25 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 30% 20%;
+
+    /* Primary - Soft Coral */
+    --primary: 15 80% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Mint Green */
+    --secondary: 145 40% 75%;
+    --secondary-foreground: 145 40% 25%;
+
+    /* Muted - Warm gray */
+    --muted: 30 20% 94%;
+    --muted-foreground: 25 15% 50%;
+
+    /* Accent - Soft Lavender */
+    --accent: 280 40% 85%;
+    --accent-foreground: 280 40% 30%;
+
+    /* Semantic colors */
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Income - Fresh Green */
+    --income: 145 50% 55%;
+    --income-foreground: 0 0% 100%;
+
+    /* Expense - Soft Red */
+    --expense: 0 65% 65%;
+    --expense-foreground: 0 0% 100%;
+
+    /* Warning - Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Category colors */
+    --category-kitchen: 25 70% 65%;
+    --category-school: 210 60% 65%;
+    --category-utility: 45 70% 60%;
+    --category-entertainment: 280 50% 70%;
+    --category-health: 160 50% 55%;
+    --category-transport: 200 60% 60%;
+    --category-shopping: 330 60% 70%;
+    --category-other: 220 20% 70%;
+
+    --border: 30 25% 88%;
+    --input: 30 25% 88%;
+    --ring: 15 80% 65%;
+
+    --radius: 1rem;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(25 30% 20% / 0.08);
+    --shadow-card: 0 8px 30px -8px hsl(25 30% 20% / 0.1);
+    --shadow-float: 0 12px 40px -12px hsl(15 80% 65% / 0.25);
+
+    /* Sidebar - keeping for compatibility */
+    --sidebar-background: 30 50% 98%;
+    --sidebar-foreground: 25 30% 20%;
+    --sidebar-primary: 15 80% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 145 40% 75%;
+    --sidebar-accent-foreground: 145 40% 25%;
+    --sidebar-border: 30 25% 88%;
+    --sidebar-ring: 15 80% 65%;
+  }
+
+  .dark {
+    --background: 25 25% 10%;
+    --foreground: 30 30% 95%;
+
+    --card: 25 20% 14%;
+    --card-foreground: 30 30% 95%;
+
+    --popover: 25 20% 14%;
+    --popover-foreground: 30 30% 95%;
+
+    --primary: 15 70% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 145 30% 35%;
+    --secondary-foreground: 145 30% 90%;
+
+    --muted: 25 15% 20%;
+    --muted-foreground: 30 15% 60%;
+
+    --accent: 280 30% 40%;
+    --accent-foreground: 280 30% 95%;
+
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --income: 145 45% 45%;
+    --income-foreground: 0 0% 100%;
+
+    --expense: 0 55% 55%;
+    --expense-foreground: 0 0% 100%;
+
+    --border: 25 15% 25%;
+    --input: 25 15% 25%;
+    --ring: 15 70% 60%;
+
+    --sidebar-background: 25 25% 10%;
+    --sidebar-foreground: 30 30% 95%;
+    --sidebar-primary: 15 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 145 30% 35%;
+    --sidebar-accent-foreground: 145 30% 90%;
+    --sidebar-border: 25 15% 25%;
+    --sidebar-ring: 15 70% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Card variants */
+  .card-summary {
+    @apply rounded-2xl p-5 shadow-[var(--shadow-card)] transition-all duration-300;
+  }
+
+  .card-summary:hover {
+    @apply shadow-[var(--shadow-float)] -translate-y-0.5;
+  }
+
+  /* Balance card gradient */
+  .card-balance {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(15 70% 55%) 100%);
+    @apply text-white;
+  }
+
+  /* Income card */
+  .card-income {
+    background: linear-gradient(135deg, hsl(var(--income)) 0%, hsl(145 45% 50%) 100%);
+    @apply text-white;
+  }
+
+  /* Expense card */
+  .card-expense {
+    background: linear-gradient(135deg, hsl(var(--expense)) 0%, hsl(0 55% 55%) 100%);
+    @apply text-white;
+  }
+
+  /* Quick add button */
+  .btn-quick-add {
+    @apply w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold;
+    @apply shadow-[var(--shadow-float)] transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(15 70% 55%) 100%);
+    @apply text-white;
+  }
+
+  .btn-quick-add:hover {
+    @apply scale-110 shadow-[0_16px_50px_-12px_hsl(15_80%_65%_/_0.4)];
+  }
+
+  .btn-quick-add:active {
+    @apply scale-95;
+  }
+
+  /* Category chip */
+  .category-chip {
+    @apply px-3 py-1.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5;
+    @apply transition-all duration-200;
+  }
+
+  /* Transaction item */
+  .transaction-item {
+    @apply flex items-center gap-4 p-4 rounded-xl bg-card transition-all duration-200;
+    @apply hover:shadow-[var(--shadow-soft)] hover:bg-muted/50;
+  }
+
+  /* Wallet tab */
+  .wallet-tab {
+    @apply px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200;
+    @apply hover:bg-muted;
+  }
+
+  .wallet-tab-active {
+    @apply bg-primary text-primary-foreground shadow-[var(--shadow-soft)];
+  }
+
+  /* Input styling */
+  .input-money {
+    @apply text-3xl font-bold text-center bg-transparent border-none focus:outline-none;
+    @apply placeholder:text-muted-foreground/50;
+  }
+
+  /* Category icon container */
+  .category-icon {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center text-xl;
+    @apply transition-all duration-200;
+  }
+
+  /* Floating navbar */
+  .nav-floating {
+    @apply fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full;
+    @apply bg-card/90 backdrop-blur-lg shadow-[var(--shadow-card)];
+    @apply flex items-center gap-2;
+  }
+}
+
+@layer utilities {
+  /* Gradient text */
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(15 70% 55%) 100%);
+  }
+
+  /* Animation utilities */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Scroll hide */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
