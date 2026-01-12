@@ -1,0 +1,138 @@
+// Prisma Schema untuk Smart Kas Ibu
+// Kompatibel dengan TiDB Cloud (MySQL)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  transactions Transaction[]
+  wallets      Wallet[]
+  categories   Category[]
+  budgets      Budget[]
+  reminders    Reminder[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  token     String   @unique @db.VarChar(500)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  walletId    String   @map("wallet_id")
+  categoryId  String   @map("category_id")
+  amount      Decimal  @db.Decimal(15, 2)
+  type        String   // 'income' atau 'expense'
+  description String?  @db.Text
+  date        DateTime
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet   Wallet   @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([categoryId])
+  @@index([walletId])
+  @@map("transactions")
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String   // Disimpan dengan format Capitalize
+  type      String   // 'cash', 'bank', 'e-wallet', 'other'
+  balance   Decimal  @default(0) @db.Decimal(15, 2)
+  icon      String?
+  color     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([userId, name])
+  @@map("wallets")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String   // Disimpan dengan format Capitalize
+  type      String   // 'income' atau 'expense'
+  icon      String?
+  color     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  budgets      Budget[]
+
+  @@unique([userId, name, type])
+  @@map("categories")
+}
+
+model Budget {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  categoryId String   @map("category_id")
+  amount     Decimal  @db.Decimal(15, 2)
+  period     String   // 'weekly', 'monthly', 'yearly'
+  startDate  DateTime @map("start_date")
+  endDate    DateTime @map("end_date")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId, period])
+  @@map("budgets")
+}
+
+model Reminder {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  title       String
+  amount      Decimal   @db.Decimal(15, 2)
+  dueDate     DateTime  @map("due_date")
+  isRecurring Boolean   @default(false) @map("is_recurring")
+  frequency   String?   // 'daily', 'weekly', 'monthly', 'yearly'
+  isPaid      Boolean   @default(false) @map("is_paid")
+  paidAt      DateTime? @map("paid_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueDate])
+  @@map("reminders")
+}
